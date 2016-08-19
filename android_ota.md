@@ -61,13 +61,15 @@ Android编译系统在初始化的过程中，会通过根目录下的Makefile�
 - output_image_file
 
  该脚本会根据 properties_file 生成对应的参数，并最终调用 mkuserimg.sh脚本来生成需要的img镜像文件
+	
+		mkuserimg.sh [-s] SRC_DIR OUTPUT_FILE EXT_VARIANT MOUNT_POINT SIZE [-j <journal_size>]
+		             [-T TIMESTAMP] [-C FS_CONFIG] [-B BLOCK_LIST_FILE] [FILE_CONTEXTS]
+	
+		mkuserimg.sh out/target/product/x86_64/system out/target/product/x86_64/obj/PACKAGING/systemimage_interm 0 out/target/product/x86_64/root/file_contexts
+	
+		make_ext4fs -T -1 -S out/target/product/x86_64/root/file_contexts -l 1262M -a system out/target/product/
 
-	mkuserimg.sh [-s] SRC_DIR OUTPUT_FILE EXT_VARIANT MOUNT_POINT SIZE [-j <journal_size>]
-	             [-T TIMESTAMP] [-C FS_CONFIG] [-B BLOCK_LIST_FILE] [FILE_CONTEXTS]
 
-	mkuserimg.sh out/target/product/x86_64/system out/target/product/x86_64/obj/PACKAGING/systemimage_interm 0 out/target/product/x86_64/root/file_contexts
-
-	make_ext4fs -T -1 -S out/target/product/x86_64/root/file_contexts -l 1262M -a system out/target/product/
 > python 脚本位置 ：./build/toos/releasetools/build_image.py
 
 
