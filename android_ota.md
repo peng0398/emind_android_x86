@@ -160,17 +160,39 @@ main函数会根据需要生成的镜像名选择合适的挂载点，之后构�
 		
 		  return exit_code == 0
 
-获取文件系统类型，根据不同的文件类型选择不同的命令，并拼接相关的参数，最终通过RunCommand方法将命令交由子进程执行，最终生成img镜像文件
+  该方法会获取文件系统类型，根据不同的文件类型选择不同的命令，并拼接相关的参数，最终通过RunCommand方法将命令交由子进程执行，最终生成img镜像文件
 
-由于我们需要的镜像文件系统类型为 ext4 ,因此此处会调用 mkuserimg.sh脚本来生成镜像，mkuserimg.sh部分脚本内容如下：
+  由于我们需要的镜像文件系统类型为 ext4 ,因此此处会调用 mkuserimg.sh脚本来生成镜像，mkuserimg.sh部分脚本内容如下：
 
-	system/extras/ext4_utils/mkuserimg.sh:
-	
-	MAKE_EXT4FS_CMD="make_ext4fs $ENABLE_SPARSE_IMAGE $FCOPT -l $SIZE -a $MOUNT_POINT $OUTPUT_FILE $SRC_DIR"
-	echo $MAKE_EXT4FS_CMD
-	$MAKE_EXT4FS_CMD
-	if [ $? -ne 0 ]; then
-	  exit 4
-	fi
+		system/extras/ext4_utils/mkuserimg.sh:
+		
+		MAKE_EXT4FS_CMD="make_ext4fs $ENABLE_SPARSE_IMAGE $FCOPT -l $SIZE -a $MOUNT_POINT $OUTPUT_FILE $SRC_DIR"
+		echo $MAKE_EXT4FS_CMD
+		$MAKE_EXT4FS_CMD
+		if [ $? -ne 0 ]; then
+		  exit 4
+		fi
 
 可以看到最终调用make_ext4fs生成所需镜像文件
+
+		make_ext4fs $ENABLE_SPARSE_IMAGE $FCOPT -l $SIZE -a $MOUNT_POINT $OUTPUT_FILE $SRC_DIR
+
+####  add_img_to_target_files.py
+
+		def BuildSystem(input_dir, info_dict, block_list=None):
+		 
+		def AddVendor(output_zip, prefix="IMAGES/"):
+		
+		def CreateImage(input_dir, info_dict, what, block_list=None):
+		
+		def AddUserdata(output_zip, prefix="IMAGES/"):
+		
+		def AddCache(output_zip, prefix="IMAGES/"):
+		
+		def AddImagesToTargetFiles(filename):
+				
+		def main(argv):
+		
+		  AddImagesToTargetFiles(args[0])
+
+该python 脚本主要用来将各个镜像文件添加到一个 zip文件中，如果对应的img文件不存在则重新生成
